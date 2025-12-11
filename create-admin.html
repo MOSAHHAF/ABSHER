@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب المسؤول</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #059669;
+            margin-bottom: 30px;
+        }
+        .result {
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #047857;
+        }
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        .info {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #3b82f6;
+        }
+        .credentials {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>إنشاء حساب المسؤول</h1>
+
+        <div class="info">
+            <strong>ملاحظة:</strong> سيتم إنشاء حساب المسؤول بالبيانات التالية:
+            <div class="credentials">
+                <div>البريد الإلكتروني: admin@family.sa</div>
+                <div>كلمة المرور: ADMIN</div>
+            </div>
+        </div>
+
+        <button id="createBtn" onclick="createAdmin()">إنشاء الحساب</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const supabaseUrl = 'https://qtsrctjjcfrjpkrrtmqa.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0c3JjdGpqY2ZyanBrcnJ0bXFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1OTY5ODksImV4cCI6MjA4MDE3Mjk4OX0.d-2xftz6R8XQL_wppQNVd0FZfPv8BVAH4QPJorBvV_4';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function createAdmin() {
+            const btn = document.getElementById('createBtn');
+            const resultDiv = document.getElementById('result');
+
+            btn.disabled = true;
+            btn.textContent = 'جاري الإنشاء...';
+            resultDiv.innerHTML = '';
+
+            try {
+                const { data: authData, error: authError } = await supabase.auth.signUp({
+                    email: 'admin@family.sa',
+                    password: 'ADMIN'
+                });
+
+                if (authError) {
+                    throw authError;
+                }
+
+                if (!authData.user) {
+                    throw new Error('فشل إنشاء المستخدم');
+                }
+
+                const { error: profileError } = await supabase
+                    .from('profiles')
+                    .insert([{
+                        id: authData.user.id,
+                        national_id: '1234567890',
+                        full_name: 'مدير النظام',
+                        date_of_birth: '1985-05-15',
+                        phone: '0501234567',
+                        email: 'admin@family.sa'
+                    }]);
+
+                if (profileError) {
+                    throw profileError;
+                }
+
+                resultDiv.innerHTML = `
+                    <div class="result success">
+                        <h2>✓ تم إنشاء الحساب بنجاح!</h2>
+                        <div class="credentials">
+                            <div><strong>البريد الإلكتروني:</strong> admin@family.sa</div>
+                            <div><strong>كلمة المرور:</strong> ADMIN</div>
+                        </div>
+                        <p style="margin-top: 15px;">يمكنك الآن تسجيل الدخول إلى النظام</p>
+                    </div>
+                `;
+
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h2>✗ حدث خطأ</h2>
+                        <p>${error.message}</p>
+                        ${error.message.includes('already registered') ? '<p style="margin-top:10px">الحساب موجود بالفعل. يمكنك تسجيل الدخول مباشرة.</p>' : ''}
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'إنشاء الحساب';
+            }
+        }
+    </script>
+</body>
+</html>
