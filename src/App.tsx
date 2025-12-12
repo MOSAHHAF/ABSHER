@@ -21,7 +21,7 @@ function App() {
     return <AdminAnalytics onBack={() => setCurrentView('selection')} />;
   }
 
-  return <Dashboard />;
+  return <Dashboard onBack={() => setCurrentView('selection')} />;
 }
 
 export default App;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase, GuardianLink, Violation, Referral, Alert } from '../lib/supabase';
-import { Users, AlertCircle, FileText, Bell } from 'lucide-react';
+import { Users, AlertCircle, FileText, Bell, ArrowLeft } from 'lucide-react';
 import DependentsList from './DependentsList';
 import ViolationsList from './ViolationsList';
 import ReferralsList from './ReferralsList';
@@ -8,7 +8,11 @@ import AlertsList from './AlertsList';
 
 const GUARDIAN_ID = '00000000-0000-0000-0000-000000000001';
 
-export default function Dashboard() {
+interface DashboardProps {
+  onBack?: () => void;
+}
+
+export default function Dashboard({ onBack }: DashboardProps) {
   const [activeTab, setActiveTab] = useState<'dependents' | 'violations' | 'referrals' | 'alerts'>('dependents');
   const [guardianProfile, setGuardianProfile] = useState<any>(null);
   const [guardianLinks, setGuardianLinks] = useState<GuardianLink[]>([]);
@@ -121,6 +125,15 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-3">
+              {onBack && (
+                <button
+                  onClick={onBack}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-gray-900"
+                  title="العودة للصفحة الرئيسية"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </button>
+              )}
               <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
                 <Users className="w-6 h-6 text-white" />
               </div>
