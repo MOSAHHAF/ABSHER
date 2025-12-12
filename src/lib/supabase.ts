@@ -131,3 +131,45 @@ export interface IntegrationStats {
   average_response_time: number;
   updated_at?: string;
 }
+
+export interface DebitCard {
+  id: string;
+  profile_id: string;
+  card_number: string;
+  card_holder_name: string;
+  bank_name: string;
+  card_type: string;
+  monthly_limit: number;
+  is_active: boolean;
+  created_at?: string;
+}
+
+export interface CardTransaction {
+  id: string;
+  card_id: string;
+  transaction_type: string;
+  amount: number;
+  merchant_name: string;
+  category: string;
+  transaction_date: string;
+  location?: string;
+  status: string;
+  created_at?: string;
+}
+
+export interface AIFamilyPrediction {
+  id: string;
+  region: string;
+  separation_rate: number;
+  risk_level: string;
+  total_families: number;
+  at_risk_families: number;
+  prediction_confidence: number;
+  factors: {
+    economic_pressure: number;
+    education_level: number;
+    family_support: number;
+    employment_rate: number;
+  };
+  updated_at?: string;
+}

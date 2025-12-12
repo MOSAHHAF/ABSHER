@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Users, AlertCircle, TrendingUp, TrendingDown, MapPin, GraduationCap, Shield, Activity, FileText, Heart, Award, BarChart3, Network } from 'lucide-react';
+import { ArrowLeft, Users, AlertCircle, TrendingUp, TrendingDown, MapPin, GraduationCap, Shield, Activity, FileText, Heart, Award, BarChart3, Network, Brain } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import ExternalIntegrations from './ExternalIntegrations';
+import AIPredictions from './AIPredictions';
 
 interface AdminAnalyticsProps {
   onBack: () => void;
@@ -19,7 +20,7 @@ interface RegionStats {
 }
 
 export default function AdminAnalytics({ onBack }: AdminAnalyticsProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'integrations'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'integrations' | 'ai_predictions'>('overview');
   const [loading, setLoading] = useState(true);
   const [totalProfiles, setTotalProfiles] = useState(0);
   const [totalViolations, setTotalViolations] = useState(0);
@@ -216,12 +217,25 @@ export default function AdminAnalytics({ onBack }: AdminAnalyticsProps) {
                 <Network className="w-5 h-5" />
                 الربط مع الجهات الأخرى
               </button>
+              <button
+                onClick={() => setActiveTab('ai_predictions')}
+                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${
+                  activeTab === 'ai_predictions'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <Brain className="w-5 h-5" />
+                التنبؤات الذكية
+              </button>
             </nav>
           </div>
         </div>
 
         {activeTab === 'integrations' ? (
           <ExternalIntegrations />
+        ) : activeTab === 'ai_predictions' ? (
+          <AIPredictions />
         ) : loading ? (
           <div className="text-center py-12 text-gray-500">جاري تحميل التحليلات...</div>
         ) : (

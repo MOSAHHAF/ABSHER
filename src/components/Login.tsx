@@ -25,10 +25,14 @@ export default function Login({ onSwitchToRegister }: { onSwitchToRegister: () =
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50 px-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <LogIn className="w-10 h-10 text-white" />
+          <div className="mx-auto mb-4">
+            <img
+              src="/whatsapp_image_2025-12-12_at_3.08.13_pm.jpeg"
+              alt="شعار أسرتي"
+              className="w-48 h-48 mx-auto object-contain"
+            />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">نظام متابعة الأسرة</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">نظام أسرتي</h1>
           <p className="text-gray-600">متابعة شاملة لأفراد الأسرة</p>
         </div>
 
