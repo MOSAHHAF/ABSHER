@@ -98,3 +98,36 @@ export interface MedicalRecord {
   notes?: string;
   created_at?: string;
 }
+
+export interface ExternalEntity {
+  id: string;
+  name_ar: string;
+  name_en: string;
+  entity_type: string;
+  description: string;
+  logo_url?: string;
+  is_active: boolean;
+  created_at?: string;
+}
+
+export interface IntegrationService {
+  id: string;
+  entity_id: string;
+  service_name_ar: string;
+  service_name_en: string;
+  data_type: string;
+  endpoint_url?: string;
+  is_active: boolean;
+  created_at?: string;
+}
+
+export interface IntegrationStats {
+  id: string;
+  service_id: string;
+  total_requests: number;
+  successful_requests: number;
+  failed_requests: number;
+  last_request_at?: string;
+  average_response_time: number;
+  updated_at?: string;
+}

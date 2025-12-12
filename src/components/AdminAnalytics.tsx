@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Users, AlertCircle, TrendingUp, TrendingDown, MapPin, GraduationCap, Shield, Activity, FileText, Heart, Award, BarChart3 } from 'lucide-react';
+import { ArrowLeft, Users, AlertCircle, TrendingUp, TrendingDown, MapPin, GraduationCap, Shield, Activity, FileText, Heart, Award, BarChart3, Network } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import ExternalIntegrations from './ExternalIntegrations';
 
 interface AdminAnalyticsProps {
   onBack: () => void;
@@ -18,6 +19,7 @@ interface RegionStats {
 }
 
 export default function AdminAnalytics({ onBack }: AdminAnalyticsProps) {
+  const [activeTab, setActiveTab] = useState<'overview' | 'integrations'>('overview');
   const [loading, setLoading] = useState(true);
   const [totalProfiles, setTotalProfiles] = useState(0);
   const [totalViolations, setTotalViolations] = useState(0);
@@ -189,7 +191,38 @@ export default function AdminAnalytics({ onBack }: AdminAnalyticsProps) {
       </div>
 
       <div className="max-w-7xl mx-auto p-6 space-y-6">
-        {loading ? (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-6">
+          <div className="border-b border-gray-200">
+            <nav className="flex">
+              <button
+                onClick={() => setActiveTab('overview')}
+                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${
+                  activeTab === 'overview'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <BarChart3 className="w-5 h-5" />
+                التحليلات العامة
+              </button>
+              <button
+                onClick={() => setActiveTab('integrations')}
+                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${
+                  activeTab === 'integrations'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <Network className="w-5 h-5" />
+                الربط مع الجهات الأخرى
+              </button>
+            </nav>
+          </div>
+        </div>
+
+        {activeTab === 'integrations' ? (
+          <ExternalIntegrations />
+        ) : loading ? (
           <div className="text-center py-12 text-gray-500">جاري تحميل التحليلات...</div>
         ) : (
           <>
