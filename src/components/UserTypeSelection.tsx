@@ -11,12 +11,14 @@ export default function UserTypeSelection({ onSelectGuardian, onSelectAdmin }: U
       <div className="max-w-6xl w-full">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-2xl flex items-center justify-center shadow-2xl">
-              <Shield className="w-12 h-12 text-white" />
-            </div>
+            <img
+              src="/whatsapp_image_2025-12-12_at_3.09.23_pm.jpeg"
+              alt="شعار أسرتي"
+              className="w-40 h-40 object-contain"
+            />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            منصة متابعة الأسرة
+            نظام أسرتي
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             نظام متكامل لمتابعة الأبناء وإدارة شؤون الأسرة

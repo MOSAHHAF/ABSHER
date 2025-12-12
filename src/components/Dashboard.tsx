@@ -136,11 +136,13 @@ export default function Dashboard({ onBack }: DashboardProps) {
                   <ArrowLeft className="w-5 h-5" />
                 </button>
               )}
-              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
-                <Users className="w-6 h-6 text-white" />
-              </div>
+              <img
+                src="/whatsapp_image_2025-12-12_at_3.09.23_pm.jpeg"
+                alt="شعار أسرتي"
+                className="w-12 h-12 object-contain"
+              />
               <div>
-                <h1 className="text-xl font-bold text-gray-900">نظام متابعة الأسرة</h1>
+                <h1 className="text-xl font-bold text-gray-900">نظام أسرتي</h1>
                 <p className="text-xs text-gray-500">متابعة شاملة لأفراد الأسرة</p>
               </div>
             </div>

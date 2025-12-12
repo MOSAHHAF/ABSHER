@@ -27,7 +27,7 @@ export default function Login({ onSwitchToRegister }: { onSwitchToRegister: () =
         <div className="text-center mb-8">
           <div className="mx-auto mb-4">
             <img
-              src="/whatsapp_image_2025-12-12_at_3.08.13_pm.jpeg"
+              src="/whatsapp_image_2025-12-12_at_3.09.23_pm.jpeg"
               alt="شعار أسرتي"
               className="w-48 h-48 mx-auto object-contain"
             />

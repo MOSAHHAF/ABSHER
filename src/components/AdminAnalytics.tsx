@@ -180,11 +180,13 @@ export default function AdminAnalytics({ onBack }: AdminAnalyticsProps) {
             العودة
           </button>
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center">
-              <BarChart3 className="w-10 h-10 text-white" />
-            </div>
+            <img
+              src="/whatsapp_image_2025-12-12_at_3.09.23_pm.jpeg"
+              alt="شعار أسرتي"
+              className="w-16 h-16 object-contain bg-white bg-opacity-20 rounded-2xl p-2"
+            />
             <div>
-              <h1 className="text-3xl font-bold">لوحة التحليلات الإدارية</h1>
+              <h1 className="text-3xl font-bold">نظام أسرتي - لوحة التحليلات</h1>
               <p className="text-blue-100 mt-1">تحليلات شاملة للأسر في مناطق المملكة</p>
             </div>
           </div>
