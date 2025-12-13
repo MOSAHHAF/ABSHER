@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { supabase, GuardianLink, Violation, Referral, Alert } from '../lib/supabase';
-import { Users, AlertCircle, FileText, Bell, ArrowLeft, CreditCard } from 'lucide-react';
+import { Users, AlertCircle, FileText, Bell, ArrowLeft } from 'lucide-react';
 import DependentsList from './DependentsList';
 import ViolationsList from './ViolationsList';
 import ReferralsList from './ReferralsList';
 import AlertsList from './AlertsList';
-import DebitCardExpenses from './DebitCardExpenses';
 
 const GUARDIAN_ID = '00000000-0000-0000-0000-000000000001';
 
@@ -14,8 +13,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ onBack }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<'dependents' | 'violations' | 'referrals' | 'alerts' | 'expenses'>('dependents');
-  const [selectedDependentForExpenses, setSelectedDependentForExpenses] = useState<{ id: string; name: string } | null>(null);
+  const [activeTab, setActiveTab] = useState<'dependents' | 'violations' | 'referrals' | 'alerts'>('dependents');
   const [guardianProfile, setGuardianProfile] = useState<any>(null);
   const [guardianLinks, setGuardianLinks] = useState<GuardianLink[]>([]);
   const [violations, setViolations] = useState<Violation[]>([]);
@@ -259,26 +257,6 @@ export default function Dashboard({ onBack }: DashboardProps) {
                   </span>
                 )}
               </button>
-              <button
-                onClick={() => {
-                  const activeLinks = guardianLinks.filter(l => l.status === 'active');
-                  if (activeLinks.length > 0 && activeLinks[0].dependent) {
-                    setSelectedDependentForExpenses({
-                      id: activeLinks[0].dependent_id,
-                      name: activeLinks[0].dependent.full_name
-                    });
-                    setActiveTab('expenses');
-                  }
-                }}
-                className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${
-                  activeTab === 'expenses'
-                    ? 'border-emerald-600 text-emerald-600'
-                    : 'border-transparent text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                <CreditCard className="w-4 h-4" />
-                بطاقات الصراف
-              </button>
             </nav>
           </div>
 
@@ -298,40 +276,6 @@ export default function Dashboard({ onBack }: DashboardProps) {
                 )}
                 {activeTab === 'alerts' && (
                   <AlertsList alerts={alerts} guardianLinks={guardianLinks} onUpdate={loadAlerts} />
-                )}
-                {activeTab === 'expenses' && (
-                  <div>
-                    <div className="mb-6">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        اختر الابن لعرض بطاقاته
-                      </label>
-                      <select
-                        className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                        value={selectedDependentForExpenses?.id || ''}
-                        onChange={(e) => {
-                          const link = guardianLinks.find(l => l.dependent_id === e.target.value);
-                          if (link && link.dependent) {
-                            setSelectedDependentForExpenses({
-                              id: link.dependent_id,
-                              name: link.dependent.full_name
-                            });
-                          }
-                        }}
-                      >
-                        {guardianLinks.filter(l => l.status === 'active').map(link => (
-                          <option key={link.id} value={link.dependent_id}>
-                            {link.dependent?.full_name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    {selectedDependentForExpenses && (
-                      <DebitCardExpenses
-                        dependentId={selectedDependentForExpenses.id}
-                        dependentName={selectedDependentForExpenses.name}
-                      />
-                    )}
-                  </div>
                 )}
               </>
             )}
